@@ -2,12 +2,18 @@ const express = require("express");
 
 const app = express();
 
-app.use("/profile", (req, res) => {
-    res.send("Profile will come here!");
+// This will only handle Get call to /user
+app.get("/user", (req, res) => {
+    res.send({firstName : "Vidun", age: 30});
+})
+
+app.post("/user", (req, res) => {
+    // Logic to save data to DB
+    res.send("Successfully saved the user data!");
 });
 
-app.use("/", (req, res) => {
-    res.send("Welcome to the new server!");
+app.use("/profile", (req, res) => {
+    res.send("Profile will come here!");
 });
 
 
