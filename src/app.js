@@ -4,6 +4,12 @@ const app = express();
 
 // This will only handle Get call to /user
 app.get("/user", (req, res) => {
+    console.log(req.query);
+    res.send({firstName : "Vidun", age: 30});
+})
+
+app.get("/user/:userId", (req, res) => {
+    console.log(req.params);
     res.send({firstName : "Vidun", age: 30});
 })
 
