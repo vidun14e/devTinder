@@ -1,13 +1,31 @@
 const express = require("express");
-const { adminAuth } = require("./middleWares/auth");
+const connectDB = require("./config/database");
+const User = require("./models/user");
 
 const app = express();
 
-app.get("/admin", adminAuth, (req, res) => {
-    res.send("This is admin");
-});
+app.post("/signup", async (req, res) => {
+    const user = new User({
+        firstName: "Vidun",
+        lastName: "E",
+        email: "vidun@gmail.com",
+        age: "30",
+    })
 
+    try {
+    await user.save();
+    res.send("User added successfully.");
+    } catch(error) {
+        res.status(400).res("Error adding user");
+    }
+})
 
-app.listen("7777", () => {
-    console.log("Server is successfully listening to port 7777..");
-});
+connectDB().then(() => {
+    console.log("database connected successfully");
+    app.listen("7777", () => {
+        console.log("Server is successfully listening to port 7777..");
+    });
+}).catch((err) => {
+    console.log("error");
+})
+
