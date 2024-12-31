@@ -35,7 +35,31 @@ app.post("/signup", async (req, res) => {
     await user.save();
     res.send("User added successfully.");
     } catch(error) {
-        res.status(400).res("Error:" + error.message);
+        res.status(400).send("Error:" + error.message);
+    }
+})
+
+// login api
+app.post("/login", async (req, res) => {
+    
+    try {
+    const { email, password } = req.body;
+    const user = await User.findOne({email: email});
+    // console.log("user", user.email);
+
+    if (!user) {
+        throw new Error("email id is not valid");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if(isPasswordValid) {
+        res.send("Login successfull!!"); 
+    } else {
+        throw new Error("password not valid"); 
+    }
+    } catch(error) {
+        res.status(400).send("Error:" + error.message);
     }
 })
 
